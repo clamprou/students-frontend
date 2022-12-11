@@ -1,10 +1,198 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {font-family: Arial, Helvetica, sans-serif;background-image: url('hua.jpg');background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;margin: auto;
+            width: 30%;
+            padding: 30px;}
+        form {border: 3px solid #f1f1f1;background-color: #278ca7;margin: 24px 0 12px 0;}
+
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #04AA6D;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            opacity: 0.8;
+            background-color: #ff6200;
+        }
+
+        a:hover {color: #ffffff; background-color: #5c009a;}
+        a { color: black; text-decoration: none;}
+
+        .cancelbtn {
+            width: auto;
+            padding: 10px 18px;
+            background-color: #f44336;
+        }
+
+        .imgcontainer {
+            background-size: 100% 100%;
+            width: 500%;
+            padding: 10px;
+        }
+
+        img.avatar {
+            width: 10%;
+            border-radius: 20%;
+        }
+
+        .container {
+            padding: 16px;
+            background-color: #3fd2c3;
+        }
+
+        span.psw {
+            float: right;
+            padding-top: 16px;
+        }
+
+        /* Change styles for span and cancel button on extra small screens */
+        @media screen and (max-width: 300px) {
+            span.psw {
+                display: block;
+                float: none;
+            }
+            .cancelbtn {
+                width: 100%;
+            }
+        }
+        .alert {
+            padding: 20px;
+            background-color: #f44336;
+            color: white;
+            opacity: 1;
+            transition: opacity 0.6s;
+            margin-bottom: 15px;
+        }
+
+        .alert.success {background-color: #04AA6D;}
+        .alert.info {background-color: #2196F3;}
+        .alert.warning {background-color: #ff9800;}
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
+    </style>
+    <script>
+        function myFunction(){
+            closeSuccessNotification();
+            closeNotification();
+            var data = JSON.stringify({
+                "email": document.getElementById("email").value,
+                "firstName": document.getElementById("firstname").value,
+                "lastName": document.getElementById("lastname").value,
+                "password": document.getElementById("password").value
+            });
+            var xhr = new XMLHttpRequest();
+            xhr.withCredentials = false;
+            xhr.addEventListener("readystatechange", function() {
+                if(this.readyState === 4) {
+                    console.log(this.responseText);
+                    if(this.status == 200){
+                        console.log(JSON.parse(this.responseText).message);
+                        document.getElementById("success_text").textContent = "Register Successful";
+                        document.getElementById("alert_success").style.visibility = "visible";
+                    }else {
+                        document.getElementById("danger_text").textContent = JSON.parse(this.responseText).message;
+                        document.getElementById("alert_danger").style.visibility = "visible";
+                    }
+                }
+            });
+            xhr.open("POST", "http://localhost:8080/myapi/user");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(data);
+        }
+        function closeSuccessNotification(){
+            document.getElementById("alert_success").style.visibility = "hidden";
+        }
+        function closeNotification(){
+            document.getElementById("alert_danger").style.visibility = "hidden";
+        }
+    </script>
 </head>
 <body>
-<a href='/'>Back to Home</a>
+<div class="alerts">
+    <div id="alert_danger" class="alert" style="visibility: hidden">
+        <span class="closebtn" onclick="closeNotification()">&times;</span>
+        <strong id="danger_text">Danger!</strong>
+    </div>
+
+    <div id="alert_success" class="alert success" style="visibility: hidden">
+        <span class="closebtn" onclick="closeSuccessNotification()">&times;</span>
+        <strong id="success_text">Success!</strong>
+    </div>
+
+    <div class="alert info" hidden>
+        <span class="closebtn">&times;</span>
+        <strong>Info!</strong>
+    </div>
+
+    <div class="alert warning" hidden>
+        <span class="closebtn">&times;</span>
+        <strong>Warning!</strong>
+    </div>
+</div>
+
+<h1>Register</h1>
+
+<form id="register">
+    <div class="imgcontainer">
+        <img src="hua_logo.png" alt="Avatar" class="avatar">
+    </div>
+    <div class="container">
+        <label for="email"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" id="email" required>
+
+        <label for="firstname"><b>First Name</b></label>
+        <input type="text" placeholder="First Name" name="firstname" id="firstname" required>
+
+        <label for="lastname"><b>Last Name</b></label>
+        <input type="text" placeholder="Last Name" name="lastname" id="lastname" required>
+
+        <label for="password"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" id="password" required>
+
+        <hr>
+        <p>By Registering you have to wait for the Administrator to enable your account:<a href="#">Terms & Privacy</a>.</p>
+
+        <button type="button" class="registerbtn" onclick="myFunction()">Register</button>
+    </div>
+
+    <div class="container" style="background-color:#3fd2c3">
+        <a type="button" class="cancelbtn" href="/">Cancel</a>
+        <span class="psw">Already <a href="Login.html">have account?</a></span>
+    </div>
+
+</form>
+
 </body>
 </html>

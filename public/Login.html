@@ -3,8 +3,10 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        body {font-family: Arial, Helvetica, sans-serif;background-color: #1f8665;margin: auto;
-            width: 60%;
+        body {font-family: Arial, Helvetica, sans-serif;background-image: url('hua.jpg');background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;margin: auto;
+            width: 30%;
             padding: 30px;}
         form {border: 3px solid #f1f1f1;background-color: #278ca7;margin: 24px 0 12px 0;}
 
@@ -42,8 +44,9 @@
         }
 
         .imgcontainer {
-            text-align: center;
-            margin: 24px 0 12px 0;
+            background-size: 100% 100%;
+            width: 500%;
+            padding: 10px;
         }
 
         img.avatar {
@@ -71,6 +74,33 @@
                 width: 100%;
             }
         }
+        .alert {
+            padding: 20px;
+            background-color: #f44336;
+            color: white;
+            opacity: 1;
+            transition: opacity 0.6s;
+            margin-bottom: 15px;
+        }
+
+        .alert.success {background-color: #04AA6D;}
+        .alert.info {background-color: #2196F3;}
+        .alert.warning {background-color: #ff9800;}
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
     </style>
     <script>
         function myFunction(){
@@ -88,10 +118,12 @@
                         }else if(JSON.parse(this.responseText).includes("ROLE_USER")){
                             document.getElementById("justuser").click();
                         }else{
-                            alert("error try again");
+                            document.getElementById("danger_text").textContent = "Error! Try again";
+                            document.getElementById("alert_danger").style.visibility = "visible";
                         }
-                    }else{
-                        alert("error try again");
+                    }else {
+                        document.getElementById("danger_text").textContent = JSON.parse(this.responseText).message;
+                        document.getElementById("alert_danger").style.visibility = "visible";
                     }
                 }
             });
@@ -100,15 +132,40 @@
             xhr.setRequestHeader("Authorization", "Basic "+basic64);
             xhr.send(data);
         }
+        function closeNotification(){
+            document.getElementById("alert_danger").style.visibility = "hidden";
+        }
     </script>
 </head>
 <body>
 
-<h1 >Login Form</h1>
+<div class="alerts">
+    <div id="alert_danger" class="alert" style="visibility: hidden">
+        <span class="closebtn" onclick="closeNotification()">&times;</span>
+        <strong id="danger_text">Danger!</strong>
+    </div>
+
+    <div id="alert_success" class="alert success" hidden>
+        <span class="closebtn">&times;</span>
+        <strong>Success!</strong>
+    </div>
+
+    <div class="alert info" hidden>
+        <span class="closebtn">&times;</span>
+        <strong>Info!</strong>
+    </div>
+
+    <div class="alert warning" hidden>
+        <span class="closebtn">&times;</span>
+        <strong>Warning!</strong>
+    </div>
+</div>
+
+<h1>Login</h1>
 
 <form id="login">
     <div class="imgcontainer">
-        <img src="img_avatar2.png" alt="Avatar" class="avatar">
+        <img src="hua_logo.png" alt="Avatar" class="avatar">
     </div>
 
     <a id="secretary" href='/Secretary.html' hidden></a>
@@ -127,7 +184,7 @@
 
     <div class="container" style="background-color:#3fd2c3">
         <a type="button" class="cancelbtn" href="/">Cancel</a>
-        <span class="psw">Forgot <a href="">password?</a></span>
+        <span class="psw">Register <a href="/Register.html">account</a></span>
     </div>
 </form>
 
