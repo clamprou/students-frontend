@@ -135,6 +135,9 @@
         function closeNotification(){
             document.getElementById("alert_danger").style.visibility = "hidden";
         }
+        function closeWarning() {
+            document.getElementById("alert_warning").style.visibility = "hidden";
+        }
     </script>
 </head>
 <body>
@@ -150,14 +153,14 @@
         <strong>Success!</strong>
     </div>
 
-    <div class="alert info" hidden>
+    <div class="alert info" style="visibility: hidden">
         <span class="closebtn">&times;</span>
         <strong>Info!</strong>
     </div>
 
-    <div class="alert warning" hidden>
-        <span class="closebtn">&times;</span>
-        <strong>Warning!</strong>
+    <div id="alert_warning" class="alert warning" style="visibility: hidden">
+        <span class="closebtn" onclick="closeWarning()">&times;</span>
+        <strong id="warning_text">Warning!</strong>
     </div>
 </div>
 
@@ -170,7 +173,8 @@
 
     <a id="secretary" href='/Secretary.html' hidden></a>
     <a id="student" href='/Student.html' hidden></a>
-    <a id="justuser" href='/Student.html' hidden></a>
+    <a id="justuser" href='/JustUser.html' hidden></a>
+    <a id="admin" href='/Admin.html' hidden></a>
 
     <div class="container">
         <label for="username"><b>Username</b></label>
