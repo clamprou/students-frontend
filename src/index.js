@@ -10,6 +10,9 @@ export default function App() {
             <div>
                 <a href='/Login.html'>Login</a>
             </div>
+            <div>
+                <a href='/AllCourses.html'>All Courses</a>
+            </div>
         </div>
     );
 }

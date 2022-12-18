@@ -233,87 +233,7 @@
             color: black;
         }
     </style>
-    <script>
-        var getJSON = function(url, callback) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
-            xhr.responseType = 'json';
-            xhr.onload = function() {
-                var status = xhr.status;
-                if (status === 200) {
-                    callback(null, xhr.response);
-                } else {
-                    callback(status, xhr.response);
-                }
-            };
-            xhr.send();
-        };
-        getJSON('http://localhost:8080/myapi/courses',
-            function(err, data) {
-                var select = document.getElementById("course");
-                for (let i = 0; i < data.length; i++) {
-                    var opt = document.createElement('option');
-                    opt.value = data[i].title;
-                    opt.innerHTML = data[i].title;
-                    select.appendChild(opt);
-                }
-            });
 
-        var data = "";
-        var xhr = new XMLHttpRequest();
-        xhr.withCredentials = false;
-        xhr.addEventListener("readystatechange", function(e) {
-            if(this.readyState === 4) {
-                console.log(this.status)
-                if(this.status == 200){
-                    alert("DONE");
-                }else {
-                    alert("NOPE");
-                }
-            }
-        });
-        xhr.open("GET", "http://localhost:8080/myapi/whoami");
-        xhr.setRequestHeader("Authorization", "");
-        xhr.send(data);
-
-        function myFunction(){
-            closeSuccessNotification();
-            closeNotification();
-            var data = JSON.stringify({
-                "nationality": document.getElementById("nationality").value,
-                "address": document.getElementById("address").value,
-                "studies": document.getElementById("studies").value,
-                "course": document.getElementById("course").value,
-                "phone": document.getElementById("phone").value,
-                "birth": document.getElementById("birth").value,
-                "why": document.getElementById("why").value,
-            });
-            var xhr = new XMLHttpRequest();
-            xhr.withCredentials = false;
-            xhr.addEventListener("readystatechange", function() {
-                if(this.readyState === 4) {
-                    console.log(this.responseText);
-                    if(this.status == 200){
-                        console.log(JSON.parse(this.responseText).message);
-                        document.getElementById("success_text").textContent = "Register Successful";
-                        document.getElementById("alert_success").style.visibility = "visible";
-                    }else {
-                        document.getElementById("danger_text").textContent = JSON.parse(this.responseText).message;
-                        document.getElementById("alert_danger").style.visibility = "visible";
-                    }
-                }
-            });
-            xhr.open("POST", "http://localhost:8080/myapi/student");
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.send(data);
-        }
-        function closeSuccessNotification(){
-            document.getElementById("alert_success").style.visibility = "hidden";
-        }
-        function closeNotification(){
-            document.getElementById("alert_danger").style.visibility = "hidden";
-        }
-    </script>
 </head>
 <body>
 <div class="alerts">
@@ -352,7 +272,7 @@
         <div class="item">
             <label for="course">Course<span>*</span></label>
             <br>
-            <select name="course" id="course">
+            <select name="course" id="course" onload="loadCourses()">
 
             </select>
         </div>
@@ -373,6 +293,86 @@
             <button type="button" onclick="myFunction()">Submit</button>
         </div>
     </form>
+    <a id="login" href='Login.html' hidden></a>
+    <a id="studentSeeApply" href='StudentSeeApply.html' hidden></a>
 </div>
 </body>
+<script>
+
+    var data = "";
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+    xhr.addEventListener("readystatechange", function() {
+        if(this.readyState === 4) {
+            var select = document.getElementById("course");
+            data = JSON.parse(this.responseText);
+            for (let i = 0; i < data.length; i++) {
+                var opt = document.createElement('option');
+                opt.value = data[i].title;
+                opt.innerHTML = data[i].title;
+                select.appendChild(opt);
+            }
+        }
+    });
+    var data = "";
+    xhr.open("GET", "http://localhost:8080/myapi/courses");
+    xhr.send(data);
+
+
+    var data = "";
+    let email = "asd";
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.addEventListener("readystatechange", function(e) {
+        if(this.readyState === 4) {
+            console.log(this.status)
+            if(this.status == 200){
+                email = this.responseText;
+                console.log("dsa");
+            }else {
+                document.getElementById("login").click();
+            }
+        }
+    });
+    xhr.open("GET", "http://localhost:8080/myapi/whoami",async =false);
+    xhr.send(data);
+    console.log(email);
+    function myFunction(){
+        closeSuccessNotification();
+        closeNotification();
+        var data = JSON.stringify({
+            "nationality": document.getElementById("nationality").value,
+            "address": document.getElementById("address").value,
+            "studies": document.getElementById("studies").value,
+            "course_title": document.getElementById("course").value,
+            "phone": document.getElementById("phone").value,
+            "birth": document.getElementById("birth").value,
+            "why": document.getElementById("why").value,
+            "user_email": email
+        });
+        console.log(data);
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+        xhr.addEventListener("readystatechange", function() {
+            if(this.readyState === 4) {
+                console.log(this.responseText);
+                if(this.status == 200){
+                    document.getElementById("studentSeeApply").click();
+                }else {
+                    document.getElementById("danger_text").textContent = JSON.parse(this.responseText).message;
+                    document.getElementById("alert_danger").style.visibility = "visible";
+                }
+            }
+        });
+        xhr.open("POST", "http://localhost:8080/myapi/student");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(data);
+    }
+    function closeSuccessNotification(){
+        document.getElementById("alert_success").style.visibility = "hidden";
+    }
+    function closeNotification(){
+        document.getElementById("alert_danger").style.visibility = "hidden";
+    }
+</script>
 </html>

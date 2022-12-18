@@ -103,94 +103,53 @@
         }
     </style>
     <script>
-        function myFunction(){
+
             var data = "";
             var xhr = new XMLHttpRequest();
-            xhr.withCredentials = false;
+            xhr.withCredentials = true;
             xhr.addEventListener("readystatechange", function(e) {
                 if(this.readyState === 4) {
                     console.log(this.status)
                     if(this.status == 200){
                         if(JSON.parse(this.responseText).includes("ROLE_SECRETARY")){
-                            document.getElementById("secretary").click();
+                            document.getElementById("evaluateApply").click();
                         }else if(JSON.parse(this.responseText).includes("ROLE_STUDENT")){
-                            document.getElementById("student").click();
+                            if(JSON.parse(this.responseText).includes("applied")){
+                                document.getElementById("seeApply").click();
+                            }else {
+                                document.getElementById("makeApply").click();
+                            }
+                        }else if(JSON.parse(this.responseText).includes("ROLE_ADMIN")){
+                            alert("Admin");
                         }else if(JSON.parse(this.responseText).includes("ROLE_USER")){
-                            document.getElementById("justuser").click();
-                        }else{
-                            document.getElementById("danger_text").textContent = "Error! Try again";
-                            document.getElementById("alert_danger").style.visibility = "visible";
+                            alert("Your account is not Activated");
+                            document.getElementById("home").click();
+                        }
+                        else{
+                            alert("Error");
                         }
                     }else {
-                        document.getElementById("danger_text").textContent = JSON.parse(this.responseText).message;
-                        document.getElementById("alert_danger").style.visibility = "visible";
+                        alert(JSON.parse(this.responseText).message);
                     }
                 }
             });
-            var basic64 = btoa(document.getElementById("username").value+":"+document.getElementById("password").value);
+            // var basic64 = btoa(document.getElementById("username").value+":"+document.getElementById("password").value);
             xhr.open("GET", "http://localhost:8080/myapi/who");
-            xhr.setRequestHeader("Authorization", "Basic "+basic64);
+            // xhr.setRequestHeader("Authorization", "Basic "+basic64);
             xhr.send(data);
-        }
-        function closeNotification(){
-            document.getElementById("alert_danger").style.visibility = "hidden";
-        }
-        function closeWarning() {
-            document.getElementById("alert_warning").style.visibility = "hidden";
-        }
+
+        // function closeNotification(){
+        //     document.getElementById("alert_danger").style.visibility = "hidden";
+        // }
+        // function closeWarning() {
+        //     document.getElementById("alert_warning").style.visibility = "hidden";
+        // }
     </script>
 </head>
 <body>
-
-<div class="alerts">
-    <div id="alert_danger" class="alert" style="visibility: hidden">
-        <span class="closebtn" onclick="closeNotification()">&times;</span>
-        <strong id="danger_text">Danger!</strong>
-    </div>
-
-    <div id="alert_success" class="alert success" hidden>
-        <span class="closebtn">&times;</span>
-        <strong>Success!</strong>
-    </div>
-
-    <div class="alert info" style="visibility: hidden">
-        <span class="closebtn">&times;</span>
-        <strong>Info!</strong>
-    </div>
-
-    <div id="alert_warning" class="alert warning" style="visibility: hidden">
-        <span class="closebtn" onclick="closeWarning()">&times;</span>
-        <strong id="warning_text">Warning!</strong>
-    </div>
-</div>
-
-<h1>Login</h1>
-
-<form id="login">
-    <div class="imgcontainer">
-        <img src="hua_logo.png" alt="Avatar" class="avatar">
-    </div>
-
-    <a id="secretary" href='/Secretary.html' hidden></a>
-    <a id="student" href='/Student.html' hidden></a>
-    <a id="justuser" href='/JustUser.html' hidden></a>
-    <a id="admin" href='/Admin.html' hidden></a>
-
-    <div class="container">
-        <label for="username"><b>Username</b></label>
-        <input id="username" type="text" placeholder="Enter Username" name="username" required>
-
-        <label for="password"><b>Password</b></label>
-        <input id="password" type="password" placeholder="Enter Password" name="password" required>
-
-        <button type="button" onclick="myFunction()">Login</button>
-    </div>
-
-    <div class="container" style="background-color:#3fd2c3">
-        <a type="button" class="cancelbtn" href="/">Cancel</a>
-        <span class="psw">Register <a href="/Register.html">account</a></span>
-    </div>
-</form>
-
+<a id="makeApply" href='/makeApply.html' hidden></a>
+<a id="seeApply" href='/StudentSeeApply.html' hidden></a>
+<a id="evaluateApply" href='/SecretaryEvaluate.html' hidden></a>
+<a id="home" href='/index.html' hidden></a>
 </body>
 </html>

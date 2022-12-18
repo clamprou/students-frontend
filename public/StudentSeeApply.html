@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;background-image: url('apply_background.png');background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;margin: auto;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+        input[type=text], select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type=button] {
+            width: 10%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type=button]:hover {
+            background-color: #45a049;
+        }
+
+        div {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            width: 50%;
+            padding: 20px;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+            border-right:1px solid #bbb;
+        }
+
+        li:last-child {
+            border-right: none;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover:not(.active) {
+            background-color: #111;
+        }
+
+        .active {
+            background-color: #04AA6D;
+        }
+    </style>
+    <script>
+        var data = "";
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.addEventListener("readystatechange", function() {
+            if(this.readyState === 4) {
+                var table = document.getElementById("tb_apply");
+                data = JSON.parse(this.responseText);
+                var row = table.insertRow(1);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);
+                var cell6 = row.insertCell(5);
+                var cell7 = row.insertCell(6);
+                cell1.innerHTML = data.status;
+                cell2.innerHTML = data.course.title;
+                cell3.innerHTML = data.address;
+                cell4.innerHTML = data.phone;
+                cell5.innerHTML = data.nationality;
+                cell6.innerHTML = data.studies;
+                cell7.innerHTML = data.why;
+            }
+        });
+        var data = "";
+        xhr.open("GET", "http://localhost:8080/myapi/student");
+        xhr.send(data);
+    </script>
+</head>
+<body>
+<ul>
+    <li><a class="active" href="StudentSeeApply.html">My Apply</a></li>
+    <li><a class="" href="StudentSeeCourses.html">All Courses</a></li>
+    <li style="float:right"><a href="#about">About</a></li>
+</ul>
+<h1 style="background-color:rgba(238,237,237,0.6);">Apply Details</h1>
+<br>
+<div>
+    <table id="tb_apply">
+        <tr>
+            <th>Status</th>
+            <th>Course</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Nationality</th>
+            <th>Studies</th>
+            <th>Why</th>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
