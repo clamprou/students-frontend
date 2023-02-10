@@ -316,7 +316,7 @@
         }
     });
     var data = "";
-    xhr.open("GET", "http://localhost:8080/myapi/courses");
+    xhr.open("GET", "http://20.238.48.160/myapi/courses");
     xhr.send(data);
 
 
@@ -335,7 +335,7 @@
             }
         }
     });
-    xhr.open("GET", "http://localhost:8080/myapi/whoami",async =false);
+    xhr.open("GET", "http://20.238.48.160/myapi/whoami",async =false);
     xhr.send(data);
     console.log(email);
     function myFunction(){
@@ -365,7 +365,7 @@
                 }
             }
         });
-        xhr.open("POST", "http://localhost:8080/myapi/student");
+        xhr.open("POST", "http://20.238.48.160/myapi/student");
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(data);
     }

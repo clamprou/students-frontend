@@ -114,7 +114,7 @@
             };
             xhr.send();
         };
-        getJSON('http://localhost:8080/myapi/courses',
+        getJSON('http://20.238.48.160/myapi/courses',
             function(err, data) {
                 var table = document.getElementById("tb_courses");
                 for (let i = 0; i < data.length; i++) {
