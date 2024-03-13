@@ -2,6 +2,8 @@
 
 ## Note that this project is the frontend implementation of [this project](https://github.com/clamprou/springboot-students.git)
 
+## [Documentation.pdf](Documentation.pdf)
+
 ## Available Scripts
 
 In the project directory, you can run:
