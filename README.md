@@ -1,6 +1,6 @@
 # Student Managment frontend app using Reactjs
 
-## Note that this project is the frontend implementation of [this project](https://github.com/clamprou/springboot-students.git)
+## Note that this project is the frontend implementation of [this](https://github.com/clamprou/springboot-students.git)
 
 ## [Documentation.pdf](Documentation.pdf)
 
